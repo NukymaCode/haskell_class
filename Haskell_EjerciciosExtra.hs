@@ -74,3 +74,22 @@ posicionParAux lista = foldl(\(acum, pos) x -> if even pos then (acum,pos+1) els
                         -- ([],0) Voy a ir metiendo en la lista vac�a los elementos de las posciones impares
                         -- y el 0 es la posici�n original de la que parto
                         -- Esta funci�n devuelve una tupla, pero s�lo nos interesa el primero, por eso filtramos con el WHERE de la funci�n eliminarPosicionPar
+
+
+{- --------------------------------------------------------------------------------------------------------------------------------
+Implementa una función polimórfica en Haskell que reciba 2 listas y vaya cogiendo un
+elemento de la primera y dos de la segunda, creando una lista final de ternas. 
+En casode que una de las dos listas se acabe, mostrará la lista de ternas construidas hasta ese momento.
+-}   
+mezclarEnTernas::[Integer]->[Integer]->[(Integer,Integer,Integer)]
+mezclarEnTernas [] _ = []
+mezclarEnTernas _ [] = []
+mezclarEnTernas _ [a] = []
+mezclarEnTernas (x:xs) (y:z:zs) = (x,y,z):(mezclarEnTernas xs zs)      
+
+{- --------------------------------------------------------------------------------------------------------------------------------
+Se pide una función polimórfica en Haskell que dado un elemento y una lista añada
+dicho elemento al final de la lista.  
+-}       
+alFinal::[a]->a->[a]
+alFinal lista elemento = lista++[elemento]
