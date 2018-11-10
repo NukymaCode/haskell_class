@@ -154,3 +154,47 @@ recorridoInorden (Rama izq n der) = recorridoInorden(izq)++[n]++recorridoInorden
 recorridoPostorden:: Arbol a -> [a]
 recorridoPostorden ET = []
 recorridoPostorden (Rama izq n der) = recorridoPostorden(izq)++recorridoPostorden(der)++[n]				
+
+
+
+
+
+
+{- Ejercicio 4 (1.5 Puntos)
+Dado el siguiente tipo de datos recursivo que representa árboles binarios
+data Arbol a = AV | Rama (Arbol a) a (Arbol a) deriving Show
+Implementar una función en Haskell que dado un árbol binario devuelva True si dicho árbol es par. 
+Se considera que un árbol binario es par si la mayoría (la mitad más uno) de sus nodos son pares. Ejemplos
+de aplicación de la función podrían ser:
+	> arbolPar (Rama (Rama (Rama AV 12 AV) 49 (Rama (Rama AV 23 AV) 12 (Rama AV 13 AV))) 13
+	(Rama AV 10 AV))
+	False
+	> arbolPar (Rama (Rama AV 8 AV) 7 (Rama AV 2 AV))
+	True
+-}
+
+data Arbol'' a = AV | Rama (Arbol'' a) a (Arbol'' a) deriving Show
+
+-- Si la mayoria de sus nodos son pares
+-- Sacar una lista con los nodos del arbol
+-- Separar la lista en pares e impares
+-- Comparar longitudes
+
+listaNodos::Arbol'' Int->[Int]
+listaNodos AV = []
+listaNodos (Rama izq nodo der) = [nodo]++listaNodos izq++listaNodos der
+
+contarImpares::[Int]->Int
+contarImpares lista = foldl(\suma x -> if odd x then suma+1 else suma) 0 lista
+
+contarPares::[Int]->Int
+contarPares lista = foldl(\suma x -> if even x then suma+1 else suma) 0 lista
+
+arbolPar::Arbol'' Int->Bool
+arbolPar arbol =
+				let nodos = listaNodos arbol
+				in if (contarImpares nodos) >= (contarPares nodos) then True
+					else False
+
+mi_arbol::Arbol'' Int
+mi_arbol = (Rama (Rama (Rama AV 12 AV) 49 (Rama (Rama AV 23 AV) 12 (Rama AV 13 AV))) 13 (Rama AV 10 AV))
