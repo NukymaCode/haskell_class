@@ -93,3 +93,32 @@ dicho elemento al final de la lista.
 -}       
 alFinal::[a]->a->[a]
 alFinal lista elemento = lista++[elemento]
+
+
+
+{- Ejercicio NUMEROS ABUNDANTES
+Se considera que un número es abundante cuando la suma de los divisores propios (todos los divisores
+salvo el propio número) sumen más que dicho número. Por ejemplo, el número 12 es abundante porque
+sus divisores, 1, 2, 3, 4 y 6 suman 16 que es mayor que 12. Se pide implementar una función en Haskell
+que dado un número entero n devuelva una lista que contenga los n primeros números abundantes. Un
+ejemplo de aplicación de la función podría ser:
+	> numerosAbundantes 5
+	[12,18,20,24,30]
+-}
+
+divisoresPropios::Int->[Int]
+divisoresPropios n = [x | x <- [1..n-1], n`mod`x==0 ]
+
+esAbundante::Int->Bool
+esAbundante n = if sum(divisoresPropios n)>n then True
+				else False
+				
+numerosAbundantes::Int->[Int]
+numerosAbundantes n = numAbuAux n 1 []
+
+numAbuAux::Int->Int->[Int]->[Int]
+numAbuAux n x lista = if length lista < n then 
+						if esAbundante x then numAbuAux n (x+1) (lista++[x])
+						else numAbuAux n (x+1) lista
+					  else lista
+					  
